@@ -25,7 +25,7 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-SimplePatternList gPatterns = { rainbow, confetti, sinelon, rainbowWithGlitter, pride, WeAre, WeAreWithGlitter, chaser, pridewithGlitter, juggle, bpm, GoBlue, GoBlueWithGlitter };
+SimplePatternList gPatterns = { GoBlue, rainbow, confetti, sinelon, rainbowWithGlitter, pride, WeAre, chaser, pridewithGlitter, juggle, bpm };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -116,6 +116,7 @@ for (int i=0; i<NUM_LEDS; i++) {
   }
 }
 
+// Does not work with addGlitter function
 void GoBlue() {
 for (int i=0; i<NUM_LEDS; i++) {
     leds[i] = CRGB::Yellow; 
@@ -145,26 +146,9 @@ for (int i=0; i<NUM_LEDS; i++) {
   }
 }
 
-void GoBlueWithGlitter() {
-  GoBlue();
-  addGlitter(80);
-}
-
+// Does not work with addGlitter function
 void WeAre() {
 for (int i=0; i<NUM_LEDS; i++) {
-    leds[i] = CRGB::Yellow; 
-  }
-  for (int i=0; i<BRIGHTNESS; i++) {
-    FastLED.setBrightness(i);
-    FastLED.show();
-    delay(10);
-  }
-  for (int i=BRIGHTNESS; i>=0; i--) {
-    FastLED.setBrightness(i);
-    FastLED.show();
-    delay(10);
-  }
-  for (int i=NUM_LEDS-1; i>=0; i--) { 
     leds[i] = CRGB::DarkBlue; 
   }
   for (int i=0; i<BRIGHTNESS; i++) {
@@ -177,11 +161,19 @@ for (int i=0; i<NUM_LEDS; i++) {
     FastLED.show();
     delay(10);
   }
-}
-
-void WeAreWithGlitter() {
-  WeAre();
-  addGlitter(80);
+  for (int i=NUM_LEDS-1; i>=0; i--) { 
+    leds[i] = CRGB::White; 
+  }
+  for (int i=0; i<BRIGHTNESS; i++) {
+    FastLED.setBrightness(i);
+    FastLED.show();
+    delay(10);
+  }
+  for (int i=BRIGHTNESS; i>=0; i--) {
+    FastLED.setBrightness(i);
+    FastLED.show();
+    delay(10);
+  }
 }
 
 // inserted from the FastLED Pride2015 example sketch
